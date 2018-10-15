@@ -16,7 +16,9 @@
     $sql = mysqli_query($con, "INSERT INTO user (User_Name, Password, Mail, Amount, Type_User, Name, Last_Name, Phone_Number, Adress_Code) VALUES ('$usernameProveedor', '$contrasenaProveedor', '$correoProveedor', '0', '$tipoUsuario', '$nombreProveedor', '$apellido', '$telefono', '60')");
 
     if ($sql) {
-        echo "Se insertó";
+        //echo "Se insertó";
+        $msg = "Se agregó proveedor."
+        header('Location: ../panelAdmin.php?msg='.$msg);
     } else {
         echo "No se insertó <br />";
         echo "Error SQL ".mysqli_error($con);

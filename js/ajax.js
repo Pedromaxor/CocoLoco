@@ -1,3 +1,10 @@
+function cerrarMsg() {
+    $(function(){
+        $('#msg').click(function(){
+            $('#msg').hide();
+        })
+    })
+}
 function buscarProv() { 
     $(function(){
         $('#buscar-proveedor').submit(function(e){
@@ -103,7 +110,7 @@ function verGanciasPProducto() {
 
             $.ajax({
                 type: 'POST', //Metodo de envio
-                url: 'src/transaccion.php', //Lugar a donde se envia la variable
+                url: 'src/transacciones.php', //Lugar a donde se envia la variable
                 data: ('verTrans='+envio), //Variable que recive el PHP
                 success: function(resp) {
                     if(resp != "") {

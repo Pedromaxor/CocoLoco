@@ -18,14 +18,27 @@
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="js/ajax.js"></script>
 </head>
 
 <body>
 
   <div class="container-fluid text-center espacioHeight">
     proyecto Desarrollado por 8B1 con coquiux
+    <div class="row" id="msg">
+      <div class="container-fluid">
+        <?php
+          if (!empty($_GET['msg'])) {
+            echo "
+                <div class='alert alert-success position-absolute' role='alert' onclick='cerrarMsg()'>".
+                  $_GET['msg']
+                ."</div>
+            ";
+          }
+        ?>
+      </div>
+    </div>
   </div>
-
   <!--barra inicio-->
   <div class="section-header sticky-top bg-white">
     <section style="padding: 5px;">
@@ -57,9 +70,9 @@
           <!-- col.// -->
           <div class="col-lg-3 col-sm-7 col-8  order-2  order-lg-3">
             <div class="d-flex justify-content-end">
-              <?php 
+              <?php
                 if($_SESSION){
-                  echo" 
+                  echo"
                   <div class='widget-header'>
                     <small class='title text-muted' data-toggle='modal' data-target='#modalModificar'>Hola, ".$_SESSION['User_Name']."</small>
                     <div>
@@ -169,7 +182,7 @@
                 </div>
                 <div id="signup" class="container tab-pane fade">
                   <br>
-                  <form>
+                  <form action="src/registro.php" method="post">
                     <div class="form-row">
                       <div class="col-md-8 mb-3">
                         <label for="mail">Correo electrónico:</label>
@@ -187,17 +200,17 @@
                       </div>
                       <div class="col">
                         <label for="apellido">Apellido:</label>
-                        <input type="text" class="form-control" name="apellido" id="apellido" required>
+                        <input type="text" class="form-control" name="apellidoUsuario" id="apellido" required>
                       </div>
                     </div>
                     <div class="form-row" style="padding-top: 1.2rem;">
                       <div class="col">
                         <label for="pwd">Contraseña:</label>
-                        <input type="password" class="form-control" name="contraseñaRegistro" id="pwd" required>
+                        <input type="password" class="form-control" name="passwordRegistro" id="pwd" required>
                       </div>
                       <div class="col">
                         <label for="pwd2">Repertir contraseña:</label>
-                        <input type="password" class="form-control" name="contraseñaRegistro2" id="pwd2" required>
+                        <input type="password" class="form-control" name="passwordRegistro2" id="pwd2" required>
                       </div>
                     </div>
                     <h6 class="text-primary" style="padding-top:1.22rem;">Domicilio</h6>
@@ -262,6 +275,9 @@
                 <li class="nav-item">
                   <a class="nav-link" data-toggle="tab" href="#modPassword">Modificar contraseña</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link text-danger" href="src/proces-unlgn.php">Cerrar sesión</a>
+                </li>
               </ul>
             </div>
             <div class="card-body">
@@ -288,74 +304,6 @@
                 </div>
                 <div id="datos" class="container tab-pane fade">
                   <?php infoUser($con, $user); ?>
-                  <!--<form action="src/modificarUsuario.php" method="post">
-                    <h6 class="text-primary">Datos personales</h6>
-                    <hr>
-                    <div class="form-row espacioHeightsm">
-                      <div class="col">
-                        <label for="nombre">Nombre(s):</label>
-                        <input type="text" class="form-control" name="nombreUsuario" id="nombre" placeholder="consulta para nombre">
-                      </div>
-                      <div class="col">
-                        <label for="apellidoMod">Apellido:</label>
-                        <input type="text" class="form-control" name="apellidoPatUsuario" id="apellidoMod" placeholder="consulta para AP">
-                      </div>
-                      <div class="col">
-                        <label for="tel">Telefono:</label>
-                        <input type="text" class="form-control" name="telefono" id="tel" placeholder="consulta para tel">
-                      </div>
-                    </div>
-                    <h6 class="text-primary">Domicilio</h6>
-                    <hr>
-                    <div class="form-row espacioHeightsm">
-                      <div class="col-md-4 mb-2">
-                        <label for="street">Calle</label>
-                        <input type="text" class="form-control" id="street" name="calle" placeholder="consulta para calle">
-                      </div>
-                      <div class="col-md-2 mb-2">
-                        <label for="numCalle">Numero</label>
-                        <input type="text" class="form-control" id="numCalle" name="numeroCalle" placeholder="consulta para numero">
-                      </div>
-                      <div class="col-md-4 mb-2">
-                        <label for="formSelect0">Colonia</label>
-                        <select class="form-control" id="formSelect0" name="colonia" required>
-                          <option value=""></option>
-                          <option value="0">La chida</option>
-                          <option value="1">La chafa</option>
-                          <option value="2">La fresa</option>
-                          <option value="3">La naca</option>
-                        </select>
-                      </div>
-                      <div class="col-md-2 mb-2">
-                        <label for="cp">Código postal</label>
-                        <input type="text" class="form-control" id="cp" name="codigoPostal" placeholder="consulta para CP">
-                      </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary" name="button">Modificar</button>
-                  </form>
-                </div>
-                <div id="modPassword" class="container tab-pane">
-                  <form action="src/modificarContraseña.php" method="post">
-                    <div class="form-row espacioHeightsm">
-                      <div class="col-md-6 -mb-3">
-                        <label for="passOld">Contraseña antigua:</label>
-                        <input type="password" class="form-control" name="modPasswordOld" id="passOld">
-                      </div>
-                    </div>
-                    <h6 class="text-primary">Escribe tu nueva contraseña</h6>
-                    <hr>
-                    <div class="form-row espacioHeightsm">
-                      <div class="col">
-                        <label for="newPwd">Contraseña:</label>
-                        <input type="password" class="form-control" name="contrasenaMod" id="newPwd">
-                      </div>
-                      <div class="col">
-                        <label for="newPwd2">Repertir contraseña:</label>
-                        <input type="password" class="form-control" name="contraseMod2" id="newPwd2">
-                      </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Modificar</button>
-                  </form>-->
                 </div>
               </div>
             </div>
@@ -578,7 +526,7 @@
   </section>
   <!-- productos recomendados -->
 
-  <footer class="section-footer bg2 fixed-bottom">
+  <footer class="section-footer bg2">
     <div class="container">
       <section class="footer-bottom row">
         <div class="col-sm-6">

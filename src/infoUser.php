@@ -8,7 +8,7 @@
         if (mysqli_num_rows($res) > 0) {
             while ($fila = $res->fetch_assoc()) {                  
                 echo "
-                <form action='modificarUsuario.php' method='post'>
+                <form action='src/modificarUsuario.php' method='post'>
                     <h6 class='text-primary'>Datos personales</h6>
                     <hr>
                     <div class='form-row espacioHeightsm'>
@@ -18,7 +18,7 @@
                       </div>
                       <div class='col'>
                         <label for='apellidoMod'>Apellido:</label>
-                        <input type='text' class='form-control' name='apellidoPatUsuario' id='apellidoMod' value='".$fila['Last_Name']."'>
+                        <input type='text' class='form-control' name='apellidoUsuario' id='apellidoMod' value='".$fila['Last_Name']."'>
                       </div>
                       <div class='col'>
                         <label for='tel'>Telefono:</label>
@@ -42,16 +42,15 @@
                                 <option value='".$fila['Code']."'>".$fila['Col']."</option>
                                 <option disable></option>
                 ";
-                $sql2 = "SELECT * FROM neighborhood";
-                $res2 = $con->query($sql2);
-                if (mysqli_num_rows($res2) > 0) {
-                    while ($dom = $res2->fetch_assoc()) {
-                        echo "
-                            
-                                <option value='".$dom['Code']."'>".$dom['Name']."</option>
-                        ";  
-                    }
-                }
+                          $sql2 = "SELECT * FROM neighborhood";
+                          $res2 = $con->query($sql2);
+                          if (mysqli_num_rows($res2) > 0) {
+                              while ($dom = $res2->fetch_assoc()) {
+                                echo "
+                                  <option value='".$dom['Code']."'>".$dom['Name']."</option>
+                                ";  
+                              }
+                          }
                 echo "
                         
                             </select>
@@ -64,8 +63,8 @@
                     <button type='submit' class='btn btn-primary' name='button'>Modificar</button>
                   </form>
                 </div>
-                ";
-                /*<div id='modPassword' class='container tab-pane'>
+                
+                <div id='modPassword' class='container tab-pane'>
                   <form action='src/modificarContraseña.php' method='post'>
                     <div class='form-row espacioHeightsm'>
                       <div class='col-md-6 -mb-3'>
@@ -85,8 +84,10 @@
                         <input type='password' class='form-control' name='contraseMod2' id='newPwd2'>
                       </div>
                     </div>
+                    <input type='hidden' name='user' value='".$user."' />
                     <button type='submit' class='btn btn-primary'>Modificar</button>
-                  </form>*/
+                  </form>
+                ";
             }
         }
     }
